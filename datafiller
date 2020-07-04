@@ -3979,8 +3979,8 @@ class BitGenerator(WithLength, RandomGenerator):
 def UUIDGenerator(att, params=None):
     if not params:
         params = att.params
-    params['pattern'] = r'\h{4}(\h{4}-){4}\h{12}'
-    return PatternGenerator(att, params)
+    params['format'] = '032X'
+    return CountGenerator(att, params)
 
 # all user-visible generators
 GENERATORS = {
