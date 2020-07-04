@@ -2389,7 +2389,7 @@ RE_SER=r'(SMALL|BIG)?SERIAL|SERIAL[248]'
 RE_BLO=r'BYTEA|BLOB'
 RE_INT=r'{0}|(TINY|SMALL|MEDIUM)INT|INT[248]|INTEGER|INT\b'.format(RE_SER)
 RE_FLT=r'REAL|FLOAT|DOUBLE\s+PRECISION|NUMERIC|DECIMAL'
-RE_TXT=r'TEXT|CHAR\(\d+\)|VARCHAR\(\d+\)'
+RE_TXT=r'TEXT|CHAR\(\d+\)|VARCHAR(\(\d+\))?'
 RE_BIT=r'BIT\(\d+\)|VARBIT\(\d+\)'
 RE_TSTZ=r'TIMESTAMP(\s+WITH\s+TIME\s+ZONE)?'
 RE_INTV=r'INTERVAL'
@@ -4370,8 +4370,7 @@ class Database(object):
         t = type.lower()
         return t == 'smallint' or t == 'int' or t == 'integer' or t == 'bigint'
     def textType(self, type):
-        t = type.lower()
-        return t == 'text' or re.match(r'(var)?char\(', t)
+        return re.match(RE_TXT + '$', type, re.I)
     def boolType(self, type):
         t = type.lower()
         return t == 'bool' or t == 'boolean'
